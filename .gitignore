@@ -1,0 +1,7 @@
+# temporary files
+*~
+*.[oa]
+*.swp
+
+# autostuffs
+autom4te.cache
