@@ -1,0 +1,58 @@
+This is a Configuration File Interface library, CFI.
+
+This library performs the task of reading (loading) and writing (storing)
+general purpose configuration files.  The loaded data can be searched and
+changed, or data can be created from scratch, and then stored into a file.
+
+The format of the configuration files that CFI can read and write is defined by
+the CFI grammar.  The CFI grammar is a small general dictionary grammar that
+can be used to describe a wide variety of general purpose configuration
+parameters.
+
+CFI is the transport mechanism enforcing the CFI grammar; it moves data to and
+fro, from correctly formatted configuration files to data structures in memory,
+and from the data structures in memory to a configuration file.
+
+CFI has an API which provides functions to read and write files, and to create
+and change data in internal data structures.
+
+The CFI dictionary grammar for configuration files:
+
+BNF Conventions
+---------------
+
+''	enclose literal lexical elements.
+[]	enclose optional grammar.
+{}	enclose grammar which is repeated zero or more times.
+|	between alternates.
+
+
+BNF Grammar & Regular Expression Lexical Elements
+-------------------------------------------------
+
+<dictionary>	::= { <word> | <word-attribute> | <section> }
+<word>		::= <attribute> ;
+<key-attribute>	::= <word> '=' <attribute> { ',' <attribute> } ';'
+<section>	::= <word> [ '(' <attribute> ')' ] '{' { <dictionary> } '}'
+<attribute>	::= <word> | <number> | <string>
+
+word            [A-Za-z]((_[A-Za-z0-9])|([A-Za-z0-9]))*
+exp_num         [-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?
+hex_num         0[xX][0-9A-Fa-f]+
+num             [-+]?[0-9]+
+oct_num         0[oO][0-7]+
+bin_num         0[bB][0-1]+
+
+
+Comments in the Grammar
+-----------------------
+
+#  This is a line comment, like shell.
+-- This is a line comment, like Ada.
+// This is a line comment, like C++.
+
+/* This is a nested (probably capable of 32767 levels) /* block comment, */
+   like C. */
+
+For official releases of libcfi, see the ttylinux extras web page: 
+http://ttylinux.org/extras.html

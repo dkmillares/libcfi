@@ -1,0 +1,177 @@
+
+                                      CFI
+                     Configuration File Interface library
+
+http://ttylinux.net/extras.html
+
+
+============
+Introduction
+============
+
+This is a Configuration File Interface library, CFI.
+
+libcfi performs the task of reading (loading) and writing (storing) general
+purpose configuration files.  The loaded data can be searched and changed, or
+data can be created from scratch, and then stored into a file.  The format of
+the configuration files that libcfi can read and write is defined by the libcfi
+grammar.  The libcfi grammar is a small general dictionary grammar that can be
+used to describe a wide variety of general purpose configuration parameters.
+
+libcfi is a transport mechanism enforcing the libcfi grammar; it moves data to
+and fro, from correctly formatted configuration files to data structures in
+memory, and from the data structures in memory to a configuration file.
+
+libcfi has an API which provides functions to read and write files, and to
+create and change data in internal data structures.
+
+The libcfi dictionary grammar for configuration files:
+
+BNF Conventions
+---------------
+
+''	enclose literal lexical elements.
+[]	enclose optional grammar.
+{}	enclose grammar which is repeated zero or more times.
+|	between alternates.
+
+
+BNF Grammar & Regular Expression Lexical Elements
+-------------------------------------------------
+
+<dictionary>	::= { <word> | <word-attribute> | <section> }
+<word>		::= <attribute> ;
+<key-attribute>	::= <word> '=' <attribute> { ',' <attribute> } ';'
+<section>	::= <word> [ '(' <attribute> ')' ] '{' { <dictionary> } '}'
+<attribute>	::= <word> | <number> | <string>
+
+word            [A-Za-z]((_[A-Za-z0-9])|([A-Za-z0-9]))*
+exp_num         [-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?
+hex_num         0[xX][0-9A-Fa-f]+
+num             [-+]?[0-9]+
+oct_num         0[oO][0-7]+
+bin_num         0[bB][0-1]+
+
+
+Comments in the Grammar
+-----------------------
+
+#  This is a line comment, like shell.
+-- This is a line comment, like Ada.
+// This is a line comment, like C++.
+
+/* This is a nested (probably capable of 32767 levels) /* block comment, */
+   like C. */
+
+
+=======
+Systems
+=======
+
+libcfi is distributed in source code and should build on your Linux or Windows
+computer.  libcfi is developed and maintained on a typical Linux host; it has
+no special dependencies so it should build without any issues.
+
+These are the systems on which I knew the original CFI library built:
+
+     o Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
+     o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1, flex 2.5.4, bison 1.28
+     o Win98 WinNT Win2K WinXP, MS Visual C/C++ 6
+
+
+=========
+Build CFI
+=========
+
+Linux:  Go into the src directory and type "make".  Build with optimization with
+        the command "make optimize".  Build with debugging symbols with the
+        command "make debug".
+
+Windows:  Double-click the MS Visual C/C++ 6 workspace file, cfi.dsw, in
+          the _MSVC6 folder.  Use the IDE to build.
+
+
+===========
+Install CFI
+===========
+
+Linux:  Go into the src directory and type "make install"; probably you need to
+        be root to do install into a directory that is outside of your home
+        directory tree.  The default install location prefix is /usr/local;
+        this default is set in the make variable INSTALL_PREFIX.
+
+        The CFI header files install into ${INSTALL_PREFIX}/include/cfi.
+        The CFI library files install into ${INSTALL_PREFIX}/lib.
+        The cfi-config script installs into ${INSTALL_PREFIX}/bin.
+
+        To change the default install location prefix, specify the location on
+        the make command line like this:
+
+             make INSTALL_PREFIX=~/local install
+
+        This will install the header files into ~/local/include/cfi, library
+        files into ~/local/lib, and the cfi-config script into ~/local/bin.
+
+        Note: The path ${INSTALL_PREFIX}/bin should be in your $PATH, or
+              otherwise you will not be able to use the cfi-config script.
+
+Windows:  I dunno windows.
+
+
+=======
+Use CFI
+=======
+
+Include the CFI header file, CFI.h.
+
+If there is not sufficient documentation in the <libcfi>/doc directory, then use
+the header file CFI.h that is in the <libcfi>/src directory and use the test
+programs under the <libcfi>/test directory for reference.
+
+Linux:  When compiling code that uses CFI, the compiler needs an include path to
+        the CFI header files.  Use the cfi-config script on the compilation
+        command line like this to generate the appropriate compiler command-line
+        option:
+
+             gcc -c -o test.o `cfi-config --cflags` test.c
+
+        The --cflags option to the cfi-config script returns the include path;
+        you can try it on the command line to see what it is.
+
+        When linking code with CFI, use the cfi-config script to generate the
+        link command-line options for linking with CFI.  For linking with the
+        shared library use `cfi-config --shared-libs`:
+
+             gcc -o test test.o `cfi-config --shared-libs` -lc
+
+        For linking with the static library use `cfi-config --static-libs`:
+
+             gcc -o test test.o `cfi-config --static-libs` -lc
+
+Windows:  I dunno windows.
+
+
+======================================
+Debugging: How to Make a gdb Backtrace
+======================================
+
+Linux:  Backtraces can help me fix bugs that make applications crash.  If you
+        find a bug that crashes an application, please send a backtrace with
+        your bug report.
+
+        To make a useful backtrace, you need a core file with debugging
+        information produced by the application when it crashes.
+
+        When it does crash, type the following from your shell:
+
+             script
+             gdb <application> core
+
+        Then, in the gdb prompt type "bt".  Blammo, you've got the backtrace in
+        front of you.  Quit from gdb by typing "quit", then in the shell prompt
+        type "quit".  The file named typescript will contain the backtrace.
+
+
+--
+Douglas Jerome <douglas@ttylinux.org>
+

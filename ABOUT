@@ -1,0 +1,59 @@
+CFI - Configuration File Interface library
+      CFI was started in 1998.
+
+Copyright (C) 1998-2015 Douglas Jerome <douglas@ttylinux.org> Peoria, AZ USA
+
+Load, search, create and store data for things like configuration files.  Data
+is stored in a file formatted like:
+
+# These are the various forms of CFI comments:
+# You've already seen this line comment; it begins with a `#'.
+-- Here is a line comment from Ada syntax; it begins with a `--'.
+// And here is a line comment from C++ syntax; it begins with `//'.
+/* Block comments are from C syntax. */
+
+/*   /* Here is a */
+ * block of
+ * nested comments.  /* You probably /* */ can nest these 32767 levels deep. */
+ */
+
+// Notice that CFI "word" and "key-attribute" statements end with a semicolon.
+
+// Words can be all by themselves.
+DontMoveOff; -- real simple
+
+// Here are "key-attribute" pieces of CFI grammer:
+wow  = Weight_On_Wheels;
+this = "is a test", of_an_option, 0xF, "tough \" \0strings\n";
+
+# Attributes can be integers; these numbers can be specified in four radixes:
+# binary, octal, decimal, and hexidecimal.  All integer attributes are "long"
+# integers implemented by your C compiler.
+#
+# NOTE the logic error here; these key all have the same name.  This is not
+#      checked by libcfi.  libcfi implements the syntax mechanism; the
+#      semantics are left for you to implement.
+#
+key = 0xDEADFACE; # 32-bit hexidecimal number.
+key = -56; # decimal number.
+key = 0o0717; # 12-bit octal number.
+key = 0b01011111010101010000111110101010; # 32-bit binary number.
+key = 0b0110; # 4-bit binary number.
+
+thing = 66.0; // Here is a real number attribute.  It is a "double precision"
+              // float implemented by your C compiler.
+
+section_one ("optional parameter")
+   {
+
+# This is a peice of CFI grammer called a "section".  Any legal CFI grammer
+# could be in here, including other sections.  Sections can be used to
+# implement hierarchal data.  Notice that sections do not terminate with a
+# semicolon.
+
+   section_two
+      {
+      string = "\101\a\b\t\n\v\f\r\a\b\f\n\t\v";
+      key = "is in a section nested within a section.";
+      }
+   }

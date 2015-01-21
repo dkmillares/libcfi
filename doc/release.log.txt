@@ -1,0 +1,6 @@
+CFI Release Log
+CFI Version	Date		SLOCS	Size Change	Description
+--------------	----------	-----	-----------	-----------
+1.0.0		2006-06-06	1875	N/A		Learn, debug the sf.net release file process.
+1.0.1		2006-06-09	1871	-0.21%		Minor fixup in CFI.h.
+1.1.0		2015-01-19	1889	0.95%		Removed the buggy compile-time check for NULL's value.

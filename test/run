@@ -1,0 +1,4 @@
+#!/bin/sh
+ulimit -c 10000
+LD_LIBRARY_PATH=../src ./cfichk test.cfi
+exit 0

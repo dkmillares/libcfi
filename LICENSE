@@ -1,0 +1,25 @@
+CFI - library for a Configuration File Interface
+
+Copyright (C) 1998-2006 Douglas Jerome <douglas@ttylinux.org>
+
+CFI is free software; you can redistribute it and/or modify it under the terms
+of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 2.1 of the License, or (at your option) any later
+version.
+
+CFI is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation Inc.,
+59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+I ask that something like the following message be included in all derived
+works:
+     Portions developed by:  Douglas Jerome <douglas@ttylinux.org>
+
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.  THERE
+ARE NO REPRESENTATIONS ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.
+DOUGLAS JEROME SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY THE USERS OF
+THIS SOFTWARE.

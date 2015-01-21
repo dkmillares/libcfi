@@ -1,0 +1,1004 @@
+CFI User's Guide
+for CFI version 1.1.X
+
+This file is part of the CFI software.
+The license that this software falls under is as follows:
+
+Copyright (C) 2005-2015 Douglas Jerome <douglas@bttylinux.org>
+
+Permission is granted to copy, distribute and/or modify this document under the
+terms of the GNU Free Documentation License, Version 1.2 or any later version
+published by the Free Software Foundation; with no Invariant Sections, no
+Front-Cover Texts, and no Back-Cover Texts.  A copy of the license is included
+in the section entitled "GNU Free Documentation License".
+
+FILE NAME
+
+	Name:     users.guide.txt
+	Revision: 1.3
+	Date:     2015-01-20
+
+PROGRAM INFORMATION
+
+	Developed by:	CFI project
+	Developer:	Douglas Jerome, drj, <douglas@ttylinux.org>
+
+FILE DESCRIPTION
+
+	This document is the programmer's User Guide for version 1.1.X of CFI,
+	the Configuration File Interface library.
+
+CHANGE LOG
+
+	20jan15	drj	Miscellaneous updates for re-hosting project in github.
+	04jun06	drj	Fixed up minor format issues.
+	26sep05	drj	Re-wrote.  Added list of functions
+	04may02	drj	First version.
+
+
+
+                                 User's Guide
+                                      for
+                 CFI, the Configuration File Interface library
+
+                                  [Programming
+                                   with CFI]
+
+
+
+
+Document Release Date
+January 20, 2015
+
+
+
+
+Permission is granted to copy, distribute and/or modify this document under the
+terms of the GNU Free Documentation License, Version 1.2 or any later version
+published by the Free Software Foundation; with no Invariant Sections, no
+Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included
+in the section entitled "GNU Free Documentation License".
+
+
+
+
+                               Table of Contents
+Section                                                                     Page
+
+1 INTRODUCTION
+  1.1 Overview
+  1.2 License
+
+2 BUILDING CFI
+  2.1 Compiling and Installing libcfi - Linux, Solaris
+  2.2 Compiling and Installing libcfi - Windows
+
+3 USING CFI
+  3.1 Accessing the Installed CFI Header Files and Library(s) - Linux, Solaris
+  3.2 Accessing the Installed CFI Header Files and Library(s) - Windows
+
+4 PROGRAMMING WITH CFI
+  4.1 Header Files
+  4.2 Function Return Values
+  4.3 Initialization
+  4.4 Grammar
+
+5 FUNCTION OVERVIEWS
+  5.1 Configuration Functions
+  5.2 Initialization, Uninitialization Functions
+  5.3 String Functions
+  5.4 I/O Functions
+  5.5 Search Functions
+  5.6 Data Allocation and Deallocation Functions
+  5.7 Data Manipulation Functions
+
+
+
+==============
+1 INTRODUCTION
+==============
+
+============
+1.1 Overview
+============
+
+libcfi performs the task of reading (loading) and writing (storing) general
+purpose configuration files.  The loaded data can be searched and changed, or
+data can be created from scratch, and then stored into a file.  The format of
+the configuration files that libcfi can read and write is defined by the libcfi
+grammar.  The libcfi grammar is a small general dictionary grammar that can be
+used to describe a wide variety of general purpose configuration parameters.
+
+libcfi is a transport mechanism enforcing the libcfi grammar; it moves data to
+and fro, from correctly formatted configuration files to data structures in
+memory, and from the data structures in memory to a configuration file.
+
+libcfi has an API which provides functions to read and write files, and to
+create and change data in internal data structures.
+
+libcfi is distributed as source code under the GNU Library Public License and is
+freely available at:
+
+	http://ttylinux.net/extras.html
+
+libcfi is distributed in source code and should build on your Linux or Windows
+computer.  libcfi is developed and maintained on a typical Linux host; it has
+no special dependencies so it should build without any issues.
+
+These are the systems on which I knew the original CFI library built:
+
+     o Linux 2.6.X, GCC 3.4.1, GNU Make 3.80, GNU C Lib 2.3.4
+     o Solaris (SunOS 5.9), GCC 2.95.2, GNU Make 3.79.1, flex 2.5.4, bison 1.28
+     o Win98 WinNT Win2K WinXP, MS Visual C/C++ 6
+
+===========
+1.2 License
+===========
+
+CFI - Configuration File Interface library
+
+Copyright (C) 1998-2015 Douglas Jerome <douglas@ttylinux.org>
+
+CFI is free software; you can redistribute it and/or modify it under the terms
+of the GNU Lesser General Public License as published by the Free Software
+Foundation; either version 2.1 of the License, or (at your option) any later
+version.
+
+CFI is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along
+with this library; if not, write to the Free Software Foundation Inc., 59
+Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+I ask that something like the following message be included in all derived
+works:
+
+	Portions developed by: Douglas Jerome <douglas@ttylinux.org>
+
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.  THERE
+ARE NO REPRESENTATIONS ABOUT THE SUITABILITY OF THIS SOFTWARE FOR ANY PURPOSE.
+DOUGLAS JEROME SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY THE USERS OF
+THIS SOFTWARE.
+
+==============
+2 BUILDING CFI
+==============
+
+CFI is completely written in C.  The CFI code is developed with strict Standard
+C (ANSI/ISO) compliance enforced by compiler options.  The CFI makefile in the
+src directory has compiler command options for "Standard C" compliance.
+
+Building CFI results in the creation of a CFI library, or libraries, depending
+on the OS.
+
+On Linux and Solaris, building CFI creates a static library "libcfi.a" and
+shared object library "libcfi.so.<version>" where <version> is some version
+numbering.  There also are a few symlinks to the shared object library.
+
+On Windows, building CFI creates "cfi.dll".
+
+====================================================
+2.1 Compiling and Installing libcfi - Linux, Solaris
+====================================================
+
+_Compile_CFI_
+
+Go into the src directory and type "make"; this builds CFI without optimization
+and without any debugging symbols.  Use the command "make optimize" to build
+CFI with optimization.  Use the command "make debug" to build CFI with debugging
+symbols.
+
+_Install_CFI_
+
+Go into the src directory and type "make install"; probably you need to be root
+to do this.  The default install location prefix is /usr/local; this default is
+set in the make variable INSTALL_PREFIX.
+
+The CFI header files install into ${INSTALL_PREFIX}/include/cfi.
+
+The CFI library files install into ${INSTALL_PREFIX}/lib.
+
+The cfi-config script installs into ${INSTALL_PREFIX}/bin.
+
+To change the default install location prefix, specify the location on the make
+command line like this:
+
+	make INSTALL_PREFIX=${HOME}/local install
+
+This will install the header files into ${HOME}/local/include/cfi, library files
+into ${HOME}/local/lib, and the cfi-config script into ${HOME}/local/bin.
+
+=============================================
+2.2 Compiling and Installing CFI - Windows
+=============================================
+
+Compile CFI:	Double-click the MS Visual C/C++ 6 workspace file, cfi.dsw, in
+		the _MSVC6 folder.  Use the IDE to build.
+
+Install CFI:	I dunno windows.
+
+===========
+3 USING CFI
+===========
+
+==================
+3.1 Accessing the Installed CFI Header Files and Library(s) - Linux, Solaris
+==================
+
+_cfi-config_
+
+cfi-config is an executable shell script; it should become installed when the
+CFI header files and library(s) are installed.  cfi-config takes one or more
+command-line options; for each command-line option cfi-config prints some text
+to standard output.  If no command-line option is given, then cfi-config
+displays the list of command-line options that it accepts.  The command-line
+options to cfi-config are:
+
+	Option		Returned Value Printed to Standard Output
+	--------------	-----------------------------------------
+	
+	--prefix	The common path prefix to the installation directories.
+
+	--credits	A copyright notice.
+
+	--version	The CFI version.
+
+	--cflags	The include file path needed to compile programs that
+			use CFI.  This is printed as a compiler command-line
+			option, like this: -I/usr/local/include/cfi
+
+	--shared-libs	The CFI shared library file path and name needed to
+			link programs that use CFI.  This is printed as a
+			linker command-line option, like this:
+			-L/usr/local/lib -Wl,-rpath,/usr/local/lib -lcfi
+
+	--static-libs	The CFI static library file path and name needed to
+			link programs that use CFI.  This is printed as a
+			linker command-line option, like this:
+			-L/usr/local/lib -lcfi
+
+_Header_Files_
+
+When compiling code that uses CFI, the compiler needs an include path to the CFI
+header files.  Use the cfi-config script on the compilation command line like
+this to generate the appropriate compiler command-line option:
+
+	gcc -c -o test.o `cfi-config --cflags` -I- test.c
+
+The --cflags option to the cfi-config script returns the include path; you can
+try it on the command line to see what it is.
+
+There typically are two include file paths, one for local files and one for
+system files.  The local include file path is used like this #include "..." and
+the system include file path is used like this #include <...>.  The -I- compiler
+command-line option switches command-line include path options from the local to
+the system include path.  Therefore, in the above example the path to the CFI
+header files is in the local include file path.
+
+_Library_Files_
+
+When linking code with CFI, the linker needs a path to the CFI library and the
+CFI library file itself needs to be included in the link command. Use the
+cfi-config script to generate the link command-line options for linking with
+CFI.
+
+For linking with the shared library use `cfi-config --shared-libs`, like this:
+
+	gcc -o test test.o `cfi-config --shared-libs` -lc
+
+For linking with the static library use `cfi-config --static-libs`, like this:
+
+	gcc -o test test.o `cfi-config --static-libs` -lc
+
+_How_to_Make_a_gdb_Backtrace_
+
+Backtraces can help me fix bugs that make applications crash.  If you find a
+bug that crashes an application, please send a backtrace with your bug report.
+
+To make a useful backtrace, you need a core file with debugging information
+produced by the application when it crashes.
+
+When it does crash, type the following from your shell:
+
+	script
+	gdb <application> core
+
+Then, in the gdb prompt type "bt".  Blammo, you've got the backtrace in front
+of you.  Quit from gdb by typing "quit", then in the shell prompt type "quit".
+The file named typescript will contain the backtrace.
+
+===========
+3.2 Accessing the Installed CFI Header Files and Library(s) - Windows
+===========
+
+I dunno windows.
+
+======================
+4 PROGRAMMING WITH CFI
+======================
+
+================
+4.1 Header Files
+================
+
+CFI.h must be included by the user's source code in order to use CFI.
+
+==========================
+4.2 Function Return Values
+==========================
+
+Some CFI functions return an integer data value; don't confuse the returned
+integer data value with a status indication.
+
+Most CFI functions return a const char*.  The general scheme for CFI
+const char* return values is that NULL indicates no error and a non-NULL value
+indicate an error.  The non-NULL return value is a pointer to the char text
+describing the error.  It might be used like this:
+
+        errMsg = cfi_init();
+        if (errMsg != NULL) {
+                printf ("error initializing libcfi: %s\n", errMsg);
+        }
+
+==================
+4.3 Initialization
+==================
+
+CFI must be initialized before use.
+
+Use the cfi_init() function before using any other CFI functions, and use
+cfi_done() when finished with CFI.
+
+===========
+4.4 Grammar
+===========
+
+This section describes the grammar of files that CFI reads and writes.
+
+BNF Conventions
+---------------
+
+''	enclose literal lexical elements.
+[]	enclose optional grammar.
+{}	enclose grammar which is repeated zero or more times.
+|	between alternates.
+
+
+BNF Grammar & regular expression Lexical Elements
+-------------------------------------------------
+
+<dictionary>	::= { <word> | <word-attribute> | <section> }
+<word>		::= <attribute> ;
+<key-attribute>	::= <word> '=' <attribute> { ',' <attribute> } ';'
+<section>	::= <word> [ '(' <attribute> ')' ] '{' { <dictionary> } '}'
+<attribute>	::= <word> | <number> | <string>
+
+word            [A-Za-z]((_[A-Za-z0-9])|([A-Za-z0-9]))*
+exp_num         [-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?
+hex_num         0[xX][0-9A-Fa-f]+
+num             [-+]?[0-9]+
+oct_num         0[oO][0-7]+
+bin_num         0[bB][0-1]+
+
+
+Comments in the Grammar
+-----------------------
+
+#  This is a line comment, like shell.
+-- This is a line comment, like Ada.
+// This is a line comment, like C++.
+
+/* This is a nested (probably capable of 32767 levels) /* block comment, */
+   like C. */
+
+====================
+5 FUNCTION OVERVIEWS
+====================
+
+===========================
+5.1 Configuration Functions
+===========================
+
+Functions
+
+cfi_conf_credits     - get string containing the libcfi credits
+cfi_conf_version     - get string containing the libcfi version
+cfi_conf_date        - get string containing the date of the libcfi build
+cfi_conf_cflags      - get string containing compiler command-line options
+cfi_conf_shared_libs - get string containing linker command-line options
+cfi_conf_static_libs - get string containing linker command-line options
+cfi_conf_debug       - set debug flags
+
+Prototypes (CFI.h)
+
+const char* cfi_conf_credits (void);
+const char* cfi_conf_version (void);
+const char* cfi_conf_date (void);
+const char* cfi_conf_cflags (void);
+const char* cfi_conf_shared_libs (void);
+const char* cfi_conf_static_libs (void);
+unsigned cfi_conf_debug (unsigned flags);
+
+==============================================
+5.2 Initialization, Uninitialization Functions
+==============================================
+
+Functions
+
+cfi_init - initialize libcfi
+cfi_done - uninitialize libcfi
+
+Prototypes (CFI.h)
+
+const char* cfi_init (void);
+const char* cfi_done (void);
+
+====================
+5.3 String Functions
+====================
+
+Functions
+
+cfi_string_decode - decode a string with binary characters
+cfi_string_encode - encode \<char> in strings into binary
+cfi_string_octal  - create character octal string from a binary value
+cfi_string_binary - create character hexideciaml string from a binary value
+
+Prototypes (CFI.h)
+
+char* cfi_string_decode (const char* text, size_t leng);
+char* cfi_string_encode (const char* text, size_t* leng);
+char* cfi_string_octal  (char* const a_buff, long a_item);
+char* cfi_string_binary (char* const a_buff, long a_item);
+
+=================
+5.4 I/O Functions
+=================
+
+Functions
+
+cfi_get - read a file into an internal data structure
+cfi_put - write a file from an internal data structure
+
+Prototypes (CFI.h)
+
+const char* cfi_get (int fd, CFI_node_t* const node);
+const char* cfi_put (int fd, CFI_node_t  const node);
+
+====================
+5.5 Search Functions
+====================
+
+Functions
+
+cfi_search      - search for something in an internal data structure
+cfi_search_flat - search for something in an internal data structure
+cfi_retain      - retain data found; guards against deletion until released
+cfi_release     - release data found in an internal data structure
+
+Prototypes (CFI.h)
+
+CFI_node_t cfi_search (CFI_node_t const node, const char* word, int type);
+CFI_node_t cfi_search_flat (CFI_node_t const node, const char* word, int type);
+const char* cfi_release (CFI_node_t node);
+
+==============================================
+5.6 Data Allocation and Deallocation Functions
+==============================================
+
+Functions
+
+cfi_node_new      - dynamically create a new, empty node
+cfi_node_del      - free a node
+cfi_attribute_new - dynamically create a new, empty attribute
+cfi_attribute_del - free an attribute
+
+Prototypes (CFI.h)
+
+const char* cfi_node_new (CFI_node_t* const node);
+const char* cfi_node_del (CFI_node_t* const node);
+const char* cfi_attribute_new (
+                              CFI_attr_t* const attr,
+                              const void*       data,
+                              int               type
+                              );
+const char* cfi_attribute_del (CFI_attr_t* const attr);
+
+===============================
+5.7 Data Manipulation Functions
+===============================
+
+Functions
+
+cfi_delete                - delete node, or mark for deletion if not released
+cfi_delete_chain          - delete nodes, or mark for deletion if not released
+cfi_node_is_deleted       - check if a node is marked as deleted
+cfi_node_type_get         - get the type of node (word, key-attribute, section)
+cfi_node_type_set         - set the type of node (word, key-attribute, section)
+cfi_node_break            - unjoin the next node
+cfi_node_next             - return the next node (like a linked list)
+cfi_node_join             - join two nodes (like a linked list)
+cfi_node_word             - get the "word" value of a node
+cfi_node_word_get         - get the "word" value of a node
+cfi_node_word_set         - set the "word" value of a node
+cfi_node_word_del         - delete the "word" value of a node
+cfi_node_attribute_count  - return the number of attributes that a node has
+cfi_node_attribute        - get a node's attributes
+cfi_node_attribute_get    - get a node's attributes
+cfi_node_attribute_set    - set a node's attributes
+cfi_node_attribute_del    - delete a node's attributes
+cfi_node_attribute_insert - add another attribute to a node's attributes
+cfi_node_attribute_remove - delete an attribute from a node's attributes
+cfi_node_section          - get the section contents of a node
+cfi_node_section_get      - get the section contents of a node
+cfi_node_section_set      - set the section contents of a node
+cfi_attribute_break       - unjoin the next attribute
+cfi_attribute_next        - return the next attribute (like a linked list)
+cfi_attribute_join        - join two attributes (like a linked list)
+cfi_attribute_type_get    - get the type of an attribute
+cfi_attribute_word_get    - return the "word" value of an attribute
+cfi_attribute_string_get  - return the string value of an attribute
+cfi_attribute_real_get    - return the double float value of an attribute
+cfi_attribute_int_get     - return the 32-bit integer value of an attribute
+
+Prototypes (CFI.h)
+
+int cfi_node_type_get (CFI_node_t const node);
+const char* cfi_node_type_set (CFI_node_t const node, int  type);
+CFI_node_t cfi_node_break (CFI_node_t const node);
+CFI_node_t cfi_node_next (CFI_node_t const node);
+CFI_node_t cfi_node_join (CFI_node_t const node1, CFI_node_t const node2);
+char* cfi_node_word (CFI_node_t const node);
+const char* cfi_node_word_get (CFI_node_t const node, char** const word);
+const char* cfi_node_word_set (CFI_node_t const node, char*  const word);
+const char* cfi_node_word_del (CFI_node_t const node);
+size_t DECLC cfi_node_attribute_count (CFI_node_t const node);
+CFI_attr_t DECLC cfi_node_attribute (CFI_node_t const node);
+const char* cfi_node_attribute_get (
+                                   CFI_node_t const node,
+                                   CFI_attr_t* const attr
+                                   );
+const char* cfi_node_attribute_set (
+                                   CFI_node_t const node,
+                                   CFI_attr_t  const attr
+                                   );
+const char* cfi_node_attribute_del (CFI_node_t const node);
+const char* cfi_node_attribute_insert (
+                                   CFI_node_t const node,
+                                   size_t           offset,
+                                   CFI_attr_t const attr
+                                   );
+const char* cfi_node_attribute_remove (
+                                      CFI_node_t  const node,
+                                      size_t            offset,
+                                      CFI_attr_t* const attr
+                                      );
+CFI_node_t cfi_node_section (CFI_node_t const node);
+const char* cfi_node_section_get (
+                                 CFI_node_t  const node,
+                                 CFI_node_t* const contents
+                                 );
+const char* cfi_node_section_set (
+                                 CFI_node_t const node,
+                                 CFI_node_t const contents
+                                 );
+CFI_attr_t cfi_attribute_break(CFI_attr_t const attr);
+CFI_attr_t cfi_attribute_next (CFI_attr_t const attr);
+CFI_attr_t cfi_attribute_join (CFI_attr_t const attr1, CFI_attr_t const attr2);
+const char* cfi_delete (CFI_node_t node);
+const char* cfi_delete_chain (CFI_node_t node);
+int cfi_node_is_deleted (CFI_node_t node);
+int cfi_attribute_type_get (CFI_attr_t const attr);
+char* cfi_attribute_word_get (CFI_attr_t const attr);
+char* cfi_attribute_string_get (CFI_attr_t const attr);
+double  cfi_attribute_real_get (CFI_attr_t const attr);
+int32_t cfi_attribute_int_get (CFI_attr_t const attr);
+
+======================================
+APPENDIX A - GNU Free Document License
+======================================
+
+
+GNU Free Documentation License
+                  Version 1.2, November 2002
+
+
+ Copyright (C) 2000,2001,2002  Free Software Foundation, Inc.
+     59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+
+0. PREAMBLE
+
+The purpose of this License is to make a manual, textbook, or other
+functional and useful document "free" in the sense of freedom: to
+assure everyone the effective freedom to copy and redistribute it,
+with or without modifying it, either commercially or noncommercially.
+Secondarily, this License preserves for the author and publisher a way
+to get credit for their work, while not being considered responsible
+for modifications made by others.
+
+This License is a kind of "copyleft", which means that derivative
+works of the document must themselves be free in the same sense.  It
+complements the GNU General Public License, which is a copyleft
+license designed for free software.
+
+We have designed this License in order to use it for manuals for free
+software, because free software needs free documentation: a free
+program should come with manuals providing the same freedoms that the
+software does.  But this License is not limited to software manuals;
+it can be used for any textual work, regardless of subject matter or
+whether it is published as a printed book.  We recommend this License
+principally for works whose purpose is instruction or reference.
+
+
+1. APPLICABILITY AND DEFINITIONS
+
+This License applies to any manual or other work, in any medium, that
+contains a notice placed by the copyright holder saying it can be
+distributed under the terms of this License.  Such a notice grants a
+world-wide, royalty-free license, unlimited in duration, to use that
+work under the conditions stated herein.  The "Document", below,
+refers to any such manual or work.  Any member of the public is a
+licensee, and is addressed as "you".  You accept the license if you
+copy, modify or distribute the work in a way requiring permission
+under copyright law.
+
+A "Modified Version" of the Document means any work containing the
+Document or a portion of it, either copied verbatim, or with
+modifications and/or translated into another language.
+
+A "Secondary Section" is a named appendix or a front-matter section of
+the Document that deals exclusively with the relationship of the
+publishers or authors of the Document to the Document's overall subject
+(or to related matters) and contains nothing that could fall directly
+within that overall subject.  (Thus, if the Document is in part a
+textbook of mathematics, a Secondary Section may not explain any
+mathematics.)  The relationship could be a matter of historical
+connection with the subject or with related matters, or of legal,
+commercial, philosophical, ethical or political position regarding
+them.
+
+The "Invariant Sections" are certain Secondary Sections whose titles
+are designated, as being those of Invariant Sections, in the notice
+that says that the Document is released under this License.  If a
+section does not fit the above definition of Secondary then it is not
+allowed to be designated as Invariant.  The Document may contain zero
+Invariant Sections.  If the Document does not identify any Invariant
+Sections then there are none.
+
+The "Cover Texts" are certain short passages of text that are listed,
+as Front-Cover Texts or Back-Cover Texts, in the notice that says that
+the Document is released under this License.  A Front-Cover Text may
+be at most 5 words, and a Back-Cover Text may be at most 25 words.
+
+A "Transparent" copy of the Document means a machine-readable copy,
+represented in a format whose specification is available to the
+general public, that is suitable for revising the document
+straightforwardly with generic text editors or (for images composed of
+pixels) generic paint programs or (for drawings) some widely available
+drawing editor, and that is suitable for input to text formatters or
+for automatic translation to a variety of formats suitable for input
+to text formatters.  A copy made in an otherwise Transparent file
+format whose markup, or absence of markup, has been arranged to thwart
+or discourage subsequent modification by readers is not Transparent.
+An image format is not Transparent if used for any substantial amount
+of text.  A copy that is not "Transparent" is called "Opaque".
+
+Examples of suitable formats for Transparent copies include plain
+ASCII without markup, Texinfo input format, LaTeX input format, SGML
+or XML using a publicly available DTD, and standard-conforming simple
+HTML, PostScript or PDF designed for human modification.  Examples of
+transparent image formats include PNG, XCF and JPG.  Opaque formats
+include proprietary formats that can be read and edited only by
+proprietary word processors, SGML or XML for which the DTD and/or
+processing tools are not generally available, and the
+machine-generated HTML, PostScript or PDF produced by some word
+processors for output purposes only.
+
+The "Title Page" means, for a printed book, the title page itself,
+plus such following pages as are needed to hold, legibly, the material
+this License requires to appear in the title page.  For works in
+formats which do not have any title page as such, "Title Page" means
+the text near the most prominent appearance of the work's title,
+preceding the beginning of the body of the text.
+
+A section "Entitled XYZ" means a named subunit of the Document whose
+title either is precisely XYZ or contains XYZ in parentheses following
+text that translates XYZ in another language.  (Here XYZ stands for a
+specific section name mentioned below, such as "Acknowledgements",
+"Dedications", "Endorsements", or "History".)  To "Preserve the Title"
+of such a section when you modify the Document means that it remains a
+section "Entitled XYZ" according to this definition.
+
+The Document may include Warranty Disclaimers next to the notice which
+states that this License applies to the Document.  These Warranty
+Disclaimers are considered to be included by reference in this
+License, but only as regards disclaiming warranties: any other
+implication that these Warranty Disclaimers may have is void and has
+no effect on the meaning of this License.
+
+
+2. VERBATIM COPYING
+
+You may copy and distribute the Document in any medium, either
+commercially or noncommercially, provided that this License, the
+copyright notices, and the license notice saying this License applies
+to the Document are reproduced in all copies, and that you add no other
+conditions whatsoever to those of this License.  You may not use
+technical measures to obstruct or control the reading or further
+copying of the copies you make or distribute.  However, you may accept
+compensation in exchange for copies.  If you distribute a large enough
+number of copies you must also follow the conditions in section 3.
+
+You may also lend copies, under the same conditions stated above, and
+you may publicly display copies.
+
+
+3. COPYING IN QUANTITY
+
+If you publish printed copies (or copies in media that commonly have
+printed covers) of the Document, numbering more than 100, and the
+Document's license notice requires Cover Texts, you must enclose the
+copies in covers that carry, clearly and legibly, all these Cover
+Texts: Front-Cover Texts on the front cover, and Back-Cover Texts on
+the back cover.  Both covers must also clearly and legibly identify
+you as the publisher of these copies.  The front cover must present
+the full title with all words of the title equally prominent and
+visible.  You may add other material on the covers in addition.
+Copying with changes limited to the covers, as long as they preserve
+the title of the Document and satisfy these conditions, can be treated
+as verbatim copying in other respects.
+
+If the required texts for either cover are too voluminous to fit
+legibly, you should put the first ones listed (as many as fit
+reasonably) on the actual cover, and continue the rest onto adjacent
+pages.
+
+If you publish or distribute Opaque copies of the Document numbering
+more than 100, you must either include a machine-readable Transparent
+copy along with each Opaque copy, or state in or with each Opaque copy
+a computer-network location from which the general network-using
+public has access to download using public-standard network protocols
+a complete Transparent copy of the Document, free of added material.
+If you use the latter option, you must take reasonably prudent steps,
+when you begin distribution of Opaque copies in quantity, to ensure
+that this Transparent copy will remain thus accessible at the stated
+location until at least one year after the last time you distribute an
+Opaque copy (directly or through your agents or retailers) of that
+edition to the public.
+
+It is requested, but not required, that you contact the authors of the
+Document well before redistributing any large number of copies, to give
+them a chance to provide you with an updated version of the Document.
+
+
+4. MODIFICATIONS
+
+You may copy and distribute a Modified Version of the Document under
+the conditions of sections 2 and 3 above, provided that you release
+the Modified Version under precisely this License, with the Modified
+Version filling the role of the Document, thus licensing distribution
+and modification of the Modified Version to whoever possesses a copy
+of it.  In addition, you must do these things in the Modified Version:
+
+A. Use in the Title Page (and on the covers, if any) a title distinct
+   from that of the Document, and from those of previous versions
+   (which should, if there were any, be listed in the History section
+   of the Document).  You may use the same title as a previous version
+   if the original publisher of that version gives permission.
+B. List on the Title Page, as authors, one or more persons or entities
+   responsible for authorship of the modifications in the Modified
+   Version, together with at least five of the principal authors of the
+   Document (all of its principal authors, if it has fewer than five),
+   unless they release you from this requirement.
+C. State on the Title page the name of the publisher of the
+   Modified Version, as the publisher.
+D. Preserve all the copyright notices of the Document.
+E. Add an appropriate copyright notice for your modifications
+   adjacent to the other copyright notices.
+F. Include, immediately after the copyright notices, a license notice
+   giving the public permission to use the Modified Version under the
+   terms of this License, in the form shown in the Addendum below.
+G. Preserve in that license notice the full lists of Invariant Sections
+   and required Cover Texts given in the Document's license notice.
+H. Include an unaltered copy of this License.
+I. Preserve the section Entitled "History", Preserve its Title, and add
+   to it an item stating at least the title, year, new authors, and
+   publisher of the Modified Version as given on the Title Page.  If
+   there is no section Entitled "History" in the Document, create one
+   stating the title, year, authors, and publisher of the Document as
+   given on its Title Page, then add an item describing the Modified
+   Version as stated in the previous sentence.
+J. Preserve the network location, if any, given in the Document for
+   public access to a Transparent copy of the Document, and likewise
+   the network locations given in the Document for previous versions
+   it was based on.  These may be placed in the "History" section.
+   You may omit a network location for a work that was published at
+   least four years before the Document itself, or if the original
+   publisher of the version it refers to gives permission.
+K. For any section Entitled "Acknowledgements" or "Dedications",
+   Preserve the Title of the section, and preserve in the section all
+   the substance and tone of each of the contributor acknowledgements
+   and/or dedications given therein.
+L. Preserve all the Invariant Sections of the Document,
+   unaltered in their text and in their titles.  Section numbers
+   or the equivalent are not considered part of the section titles.
+M. Delete any section Entitled "Endorsements".  Such a section
+   may not be included in the Modified Version.
+N. Do not retitle any existing section to be Entitled "Endorsements"
+   or to conflict in title with any Invariant Section.
+O. Preserve any Warranty Disclaimers.
+
+If the Modified Version includes new front-matter sections or
+appendices that qualify as Secondary Sections and contain no material
+copied from the Document, you may at your option designate some or all
+of these sections as invariant.  To do this, add their titles to the
+list of Invariant Sections in the Modified Version's license notice.
+These titles must be distinct from any other section titles.
+
+You may add a section Entitled "Endorsements", provided it contains
+nothing but endorsements of your Modified Version by various
+parties--for example, statements of peer review or that the text has
+been approved by an organization as the authoritative definition of a
+standard.
+
+You may add a passage of up to five words as a Front-Cover Text, and a
+passage of up to 25 words as a Back-Cover Text, to the end of the list
+of Cover Texts in the Modified Version.  Only one passage of
+Front-Cover Text and one of Back-Cover Text may be added by (or
+through arrangements made by) any one entity.  If the Document already
+includes a cover text for the same cover, previously added by you or
+by arrangement made by the same entity you are acting on behalf of,
+you may not add another; but you may replace the old one, on explicit
+permission from the previous publisher that added the old one.
+
+The author(s) and publisher(s) of the Document do not by this License
+give permission to use their names for publicity for or to assert or
+imply endorsement of any Modified Version.
+
+
+5. COMBINING DOCUMENTS
+
+You may combine the Document with other documents released under this
+License, under the terms defined in section 4 above for modified
+versions, provided that you include in the combination all of the
+Invariant Sections of all of the original documents, unmodified, and
+list them all as Invariant Sections of your combined work in its
+license notice, and that you preserve all their Warranty Disclaimers.
+
+The combined work need only contain one copy of this License, and
+multiple identical Invariant Sections may be replaced with a single
+copy.  If there are multiple Invariant Sections with the same name but
+different contents, make the title of each such section unique by
+adding at the end of it, in parentheses, the name of the original
+author or publisher of that section if known, or else a unique number.
+Make the same adjustment to the section titles in the list of
+Invariant Sections in the license notice of the combined work.
+
+In the combination, you must combine any sections Entitled "History"
+in the various original documents, forming one section Entitled
+"History"; likewise combine any sections Entitled "Acknowledgements",
+and any sections Entitled "Dedications".  You must delete all sections
+Entitled "Endorsements".
+
+
+6. COLLECTIONS OF DOCUMENTS
+
+You may make a collection consisting of the Document and other documents
+released under this License, and replace the individual copies of this
+License in the various documents with a single copy that is included in
+the collection, provided that you follow the rules of this License for
+verbatim copying of each of the documents in all other respects.
+
+You may extract a single document from such a collection, and distribute
+it individually under this License, provided you insert a copy of this
+License into the extracted document, and follow this License in all
+other respects regarding verbatim copying of that document.
+
+
+7. AGGREGATION WITH INDEPENDENT WORKS
+
+A compilation of the Document or its derivatives with other separate
+and independent documents or works, in or on a volume of a storage or
+distribution medium, is called an "aggregate" if the copyright
+resulting from the compilation is not used to limit the legal rights
+of the compilation's users beyond what the individual works permit.
+When the Document is included in an aggregate, this License does not
+apply to the other works in the aggregate which are not themselves
+derivative works of the Document.
+
+If the Cover Text requirement of section 3 is applicable to these
+copies of the Document, then if the Document is less than one half of
+the entire aggregate, the Document's Cover Texts may be placed on
+covers that bracket the Document within the aggregate, or the
+electronic equivalent of covers if the Document is in electronic form.
+Otherwise they must appear on printed covers that bracket the whole
+aggregate.
+
+
+8. TRANSLATION
+
+Translation is considered a kind of modification, so you may
+distribute translations of the Document under the terms of section 4.
+Replacing Invariant Sections with translations requires special
+permission from their copyright holders, but you may include
+translations of some or all Invariant Sections in addition to the
+original versions of these Invariant Sections.  You may include a
+translation of this License, and all the license notices in the
+Document, and any Warranty Disclaimers, provided that you also include
+the original English version of this License and the original versions
+of those notices and disclaimers.  In case of a disagreement between
+the translation and the original version of this License or a notice
+or disclaimer, the original version will prevail.
+
+If a section in the Document is Entitled "Acknowledgements",
+"Dedications", or "History", the requirement (section 4) to Preserve
+its Title (section 1) will typically require changing the actual
+title.
+
+
+9. TERMINATION
+
+You may not copy, modify, sublicense, or distribute the Document except
+as expressly provided for under this License.  Any other attempt to
+copy, modify, sublicense or distribute the Document is void, and will
+automatically terminate your rights under this License.  However,
+parties who have received copies, or rights, from you under this
+License will not have their licenses terminated so long as such
+parties remain in full compliance.
+
+
+10. FUTURE REVISIONS OF THIS LICENSE
+
+The Free Software Foundation may publish new, revised versions
+of the GNU Free Documentation License from time to time.  Such new
+versions will be similar in spirit to the present version, but may
+differ in detail to address new problems or concerns.  See
+http://www.gnu.org/copyleft/.
+
+Each version of the License is given a distinguishing version number.
+If the Document specifies that a particular numbered version of this
+License "or any later version" applies to it, you have the option of
+following the terms and conditions either of that specified version or
+of any later version that has been published (not as a draft) by the
+Free Software Foundation.  If the Document does not specify a version
+number of this License, you may choose any version ever published (not
+as a draft) by the Free Software Foundation.
+
+
+ADDENDUM: How to use this License for your documents
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and
+license notices just after the title page:
+
+    Copyright (c)  YEAR  YOUR NAME.
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2
+    or any later version published by the Free Software Foundation;
+    with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+Texts.
+    A copy of the license is included in the section entitled "GNU
+    Free Documentation License".
+
+If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts,
+replace the "with...Texts." line with this:
+
+    with the Invariant Sections being LIST THEIR TITLES, with the
+    Front-Cover Texts being LIST, and with the Back-Cover Texts being
+LIST.
+
+If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License,
+to permit their use in free software.
+
+[eof]

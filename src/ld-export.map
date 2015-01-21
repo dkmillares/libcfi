@@ -1,0 +1,78 @@
+{
+
+   global:
+
+      cfi_conf_credits;
+      cfi_conf_version;
+      cfi_conf_date;
+      cfi_conf_cflags;
+      cfi_conf_shared_libs;
+      cfi_conf_static_libs;
+      cfi_conf_debug;
+
+      cfi_init;
+      cfi_done;
+
+      cfi_string_decode;
+      cfi_string_encode;
+      cfi_string_octal;
+      cfi_string_binary;
+
+      cfi_conf_debug;
+      cfi_get;
+      cfi_put;
+      cfi_delete_chain;
+
+      cfi_get;
+      cfi_put;
+
+      cfi_node_new;
+      cfi_node_del;
+      cfi_attribute_new;
+      cfi_attribute_del;
+
+      cfi_node_type_get;
+      cfi_node_type_set;
+      cfi_node_break;
+      cfi_node_next;
+      cfi_node_join;
+
+      cfi_node_word;
+      cfi_node_word_get;
+      cfi_node_word_set;
+      cfi_node_word_del;
+
+      cfi_node_attribute_count;
+      cfi_node_attribute;
+      cfi_node_attribute_get;
+      cfi_node_attribute_set;
+      cfi_node_attribute_del;
+      cfi_node_attribute_insert;
+      cfi_node_attribute_remove;
+
+      cfi_node_section ;
+      cfi_node_section_get;
+      cfi_node_section_set;
+
+      cfi_attribute_break;
+      cfi_attribute_next;
+      cfi_attribute_join;
+
+      cfi_search;
+      cfi_search_flat;
+
+      cfi_retain;
+      cfi_release;
+      cfi_delete;
+      cfi_delete_chain;
+      cfi_node_is_deleted;
+
+      cfi_attribute_type_get;
+      cfi_attribute_word_get;
+      cfi_attribute_string_get;
+      cfi_attribute_real_get;
+      cfi_attribute_int_get;
+
+   local:  *;
+
+};

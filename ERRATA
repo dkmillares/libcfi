@@ -1,0 +1,214 @@
+----------------
+CFI-1.1.0 ERRATA
+----------------
+
+
+================================================================================
+Bugs & Limitations
+================================================================================
+
+1.	Do not use this code in a threaded, nor reentrant, environment.
+
+
+================================================================================
+To Do
+================================================================================
+
+1.	Get somebody to develop an autoconf/automake build process.
+
+
+================================================================================
+Change Log
+================================================================================
+
+##### Changes in libcfi version 1.1.0 (19jan15):
+
+New and Changed Functionality:
+- Removed the buggy compile-time check for NULL's value (CFI.h).
+- Added V=1 command line option (Makefile).
+- Changed INSTALL_INCLUDE and INSTALL_SHARE directories (Makefile).
+- Added $(CROSS_COMPILE) for cross-building support (Makefile).
+- Removed the RCS usage (Makefile).
+- Removed the 'source' and 'objects' help targets (Makefile).
+- Changed the handling of optimization and debug flags (Makefile).
+
+Bugs Fixed:
+- Fixed the definition of NULL (CFI.h).
+- Fixed handling of 64-bit long symbols (io.c, string.c).
+
+Things otherwise different:
+- Fixed INSTALLPREFIX to be INSTALL_PREFIX (Makefile).
+- Moved source into github and updated some documentation.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 1.0.1 (09jun06):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Changed some of config.c to be more concise.
+- Changed some of Makefile to be more concise.
+- Changed some of CFI.h to be more concise.
+- Fixed symbol.h to include <stdlib.h>.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 1.0.0 (28oct05):
+
+	****************************************************************
+	* There are many changes. The API is somewhat different.       *
+	****************************************************************
+
+New Functionality:
+- Probably some.
+
+Bugs Fixed:
+- Probably some.
+
+Things otherwise different:
+- Re-wrote too much to document.  The API is all different.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.50.1 (12may02):
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- some code comment modifications
+- changed some function prototypes and c-switching for Solaris support
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.50.0 (03may02):
+
+	****************************************************************
+	* There are many changes. The API is somewhat extended.        *
+	****************************************************************
+
+New Functionality:
+- Memory allocated with new libcsc memory subsystem.
+- Nodes and attributes atually deallocated.
+
+Bugs Fixed:
+- Memory leaks removed {memory now allocated with new libcsc memory subsystem}
+
+Things otherwise different:
+- None.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.35.0 (25jun00):
+
+	****************************************************************
+	* There are so many changes; I've even thrown away (archived)  *
+	* the original revision history.  Consider this to be complete *
+	* rebaseline.                                                  *
+	****************************************************************
+
+New Functionality:
+- Strings are encoded/unencoded (ripped from libpropList).
+- Attributes can be inserted/removed into/from word-attributes.
+- cfi tree structure can be broken into several parts.
+  o  each one can be written to its own file.
+- Better control over I/O from/to files and stdout.
+
+Bugs Fixed:
+- Fixed (I think) trailing garbage occasionally occuring in attribute strings.
+
+Things otherwise different:
+- Too many: completely rebaselined.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.3.5:
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Minor documentation fixups.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.3.4:
+
+New Functionality:
+- Sharpened up the demo/test makefile in libcfi/t.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- None.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.3.3:
+
+New Functionality:
+- Sharpened up the demo/test program in libcfi/t.
+
+Bugs Fixed:
+- Fixed some of the documentation.
+
+Things otherwise different:
+- Don't report process ID with syntax errors when not compiled with DEBUG.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.3.2:
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Changed some documentation and Makefile for cleaner SunOS 4.1.x compiling.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.3.1:
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- Changed some internal defines to become external with better names.
+- Prototyped some external functions.
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.0.2:
+
+New Functionality:
+- None.
+
+Bugs Fixed:
+- None.
+
+Things otherwise different:
+- fixed to use new librt headers (cfilex.l, cfiparse.y)
+
+-------------------------------------------------------------------------------
+
+##### Changes in libcfi version 0.0.1:
+
+(initial version)

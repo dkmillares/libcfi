@@ -1,0 +1,17 @@
+CFI - Configuration File Interface library
+
+Copyright (C) 1998-2015 Douglas Jerome <douglas@ttylinux.org> Peoria, AZ USA
+
+
+I have taken some code, without explicit permission, for use in CFI.  The
+following people have not actively contributed to CFI; they are not known
+by me to indorse CFI; they probably do not know that CFI exists.
+
+Copyright (C) Bjoern Giesler(?)
+     The CFI string handling functions are taken from libPropList; so someone
+     else (Bjoern Giesler?) deserves credit for the string handling code.
+
+
+The following people have actively contributed to libcfi.
+
+Copyright (C) <year> <name> ....................................... <capability>
